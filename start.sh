@@ -20,8 +20,17 @@ readonly PROJECT_ID="$(gcloud config get-value project)"
 
 echo "Project ID: ${PROJECT_ID}"
 
-# TODO: need to get project name using project id, doesn't seem the above command
-# can give you the name
-# readonly PROJECT_NAME="$()"
-#
-# echo "Project name: ${PROJECT_NAME}"
+# TODO: improve this hopefully get it directly from the gcloud command
+readonly PROJECT_NAME="$(gcloud projects list | grep "${PROJECT_ID}" | tr -s ' ' '\t' | cut -f 2)"
+
+echo "Project name: ${PROJECT_NAME}"
+
+# Check Docker is running if we don't use Cloud Build
+if [[ ! $(docker info 2> /dev/null) ]]; then
+  echo 'Docker not running, Exiting...'
+  # exit 1
+fi
+
+if [[ ! -f 'Dockerfile' ]]; then
+  echo 'Dockerfile not present'
+fi
