@@ -11,12 +11,18 @@ if [[ ! $(which gcloud) ]]; then
   exit 1
 fi
 
-# TODO: check if a project is set if not maybe allow choosing
+readonly PROJECT_ID="$(gcloud config get-value project)"
+
+# TODO: finish me
+readonly IMAGE_NAME
+
+# TODO: if project is not set maybe allow choosing
+if [[ -z "${PROJECT_ID}" ]]; then
+  echo 'Project not set!'
+fi
 
 # TODO: if project was already set display it and ask user is that what they want
 # otherwise maybe allow choosing
-
-readonly PROJECT_ID="$(gcloud config get-value project)"
 
 echo "Project ID: ${PROJECT_ID}"
 
@@ -33,4 +39,8 @@ fi
 
 if [[ ! -f 'Dockerfile' ]]; then
   echo 'Dockerfile not present'
+  # exit 1
 fi
+
+# TODO: build image using Docker
+# docker build -t "${IMAGE_NAME}" .
